@@ -1,0 +1,25 @@
+import React, {useState, useContext} from 'react';
+import "./components.css";
+import {BrowserRouter as Router, Route, Redirect, Link} from "react-router-dom";
+import MainPage from './mainPage';
+import LoginScreen from "./LoginAuthentication/Login";
+import CreateUser from "./LoginAuthentication/CreateUser";
+import AccountScreen from "./accountScreen";
+
+export default function MenuBar(){
+    return(
+        <Router>
+            <div className="menuBar">
+            <nav>
+            <Link to="/">Home</Link>
+            <Link to="/login">Login</Link>
+            </nav>
+            </div>
+
+            <Route path="/myaccount" exact component={AccountScreen}/>
+            <Route path="/login/createuser" exact component={CreateUser}/>
+            <Route path="/" exact component={MainPage}/>
+            <Route path="/login" exact component={LoginScreen}/>
+        </Router>
+    )
+}
