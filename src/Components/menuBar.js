@@ -13,6 +13,7 @@ export default function MenuBar(){
             <nav>
             <Link to="/">Home</Link>
             <Link to="/login">Login</Link>
+            <Link to="/myaccount">My Account</Link>
             </nav>
             </div>
 

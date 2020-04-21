@@ -2,3 +2,24 @@
     background-color: #980606 ;
     height: 40px;
 }
+
+.banner{
+    display: flex;
+}
+
+.bannerImage{
+    width: 50%;
+}
+
+.bannerText{
+    display: flex;
+    flex-direction: column;
+}
+
+.accountToolbar{
+    background-color: #980606;
+}
+
+.formDisplayItem{
+    display: flex;
+}
