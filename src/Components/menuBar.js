@@ -5,6 +5,7 @@ import MainPage from './mainPage';
 import LoginScreen from "./LoginAuthentication/Login";
 import CreateUser from "./LoginAuthentication/CreateUser";
 import AccountScreen from "./accountScreen";
+import CountDownTimer from "./countdownTimer";
 
 export default function MenuBar(){
     return(
@@ -21,6 +22,7 @@ export default function MenuBar(){
             <Route path="/login/createuser" exact component={CreateUser}/>
             <Route path="/" exact component={MainPage}/>
             <Route path="/login" exact component={LoginScreen}/>
+            <Route path="/timer" exact component={CountDownTimer}/>
         </Router>
     )
 }
