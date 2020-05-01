@@ -35,7 +35,8 @@ function postUser(res){
 }
 
 function submitHandler(event) {
-    postUser(event)
+    event.preventDefault();
+    postUser(event);
 }
 
 

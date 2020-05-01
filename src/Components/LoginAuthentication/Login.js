@@ -1,44 +1,44 @@
 import React, {useState, useContext} from 'react';
 import {BrowserRouter as Router, Route, Redirect, Link, Switch} from "react-router-dom";
-
+import {LoginContext } from "./isAuthenticated";
 
 export default function LoginScreen(){
 
 
 const [userName, setUserName] = useState('');
 const [password, setPassword] = useState('');
+const {user, setUser, loggedIn, setLoggedIn, token, writeToken} = useContext(LoginContext);
 
-
-// const veryifyLogin= (res, props) => {
-//     fetch(`http://localhost:5000/login/${userName}`, {
-//         method: "POST",
-//         headers: {
-//             'Content-Type': 'application/json'
-//         },
-//         body:JSON.stringify({
-//             userName: userName,
-//             password: password
-//         })
+const veryifyLogin= (res, props) => {
+    fetch(`http://localhost:5000/login/${userName}`, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body:JSON.stringify({
+            userName: userName,
+            password: password
+        })
         
-//     }).then(  
-//         res => res.json()
-//     ).then(
-//         function (data) {
-//             if(data.userName=== 'Incorrect User Name'){
-//                 window.alert("Incorrect User Name or Password")
-//             } else {
-//                 if(data.password === 'Incorrect password') {
-//                     window.alert("Incorrect User Name or Password")
-//                 } else{
-//                setUser(userName)
-//                writeToken(data.TokenAuth)
-//                setLoggedIn(true)
-//                routeChange()
-//             }
-//         }
-//         }
-//     )
-// }
+    }).then(  
+        res => res.json()
+    ).then(
+        function (data) {
+            if(data.userName=== 'Incorrect User Name'){
+                window.alert("Incorrect User Name or Password")
+            } else {
+                if(data.password === 'Incorrect password') {
+                    window.alert("Incorrect User Name or Password")
+                } else{
+               setUser(userName)
+            //    writeToken(data.TokenAuth)
+               setLoggedIn(true)
+            //    routeChange()
+            }
+        }
+        }
+    )
+}
 
 
 

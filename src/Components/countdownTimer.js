@@ -1,77 +1,89 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import MenuBar from "./menuBar";
 import "./components.css";
+ 
 
-let countdown;
-const timerDisplay = document.querySelector('.display__time-left');
-const endTime = document.querySelector('.display__end-time');
-const buttons = document.querySelectorAll('[data-time]');
 
-function timer(seconds) {
-  // clear any existing timers
-  clearInterval(countdown);
-
-  const now = Date.now();
-  const then = now + seconds * 1000;
-  displayTimeLeft(seconds);
-  displayEndTime(then);
-
-  countdown = setInterval(() => {
-    const secondsLeft = Math.round((then - Date.now()) / 1000);
-    // check if we should stop it!
-    if(secondsLeft < 0) {
-      clearInterval(countdown);
-      return;
-    }
-    // display it
-    displayTimeLeft(secondsLeft);
-  }, 1000);
-}
-
-function displayTimeLeft(seconds) {
-  const minutes = Math.floor(seconds / 60);
-  const remainderSeconds = seconds % 60;
-  const display = `${minutes}:${remainderSeconds < 10 ? '0' : '' }${remainderSeconds}`;
-  document.title = display;
-  timerDisplay.textContent = display;
-}
-
-function displayEndTime(timestamp) {
-  const end = new Date(timestamp);
-  const hour = end.getHours();
-  const adjustedHour = hour > 12 ? hour - 12 : hour;
-  const minutes = end.getMinutes();
-  endTime.textContent = `Be Back At ${adjustedHour}:${minutes < 10 ? '0' : ''}${minutes}`;
-}
-
-function startTimer() {
-  const seconds = parseInt(this.dataset.time);
-  timer(seconds);
-}
-
-// buttons.forEach(button => button.addEventListener('click', startTimer));
-// document.customForm.addEventListener('submit', function(e) {
-//   e.preventDefault();
-//   const mins = this.minutes.value;
-//   console.log(mins);
-//   timer(mins * 60);
-//   this.reset();
-// });
 
 export default function CountDownTimer(){
+
+    useEffect(() => {
+        getTasks({})
+    },[]);
+
+
+const [time, setTime] = useState(0)
+const [tasks, setTasks] =useState()
+const completedTasks = []
+const [displayTime, setDisplayTime] = useState(0)
+const earnedTime = []
+
+
+function getTasks(res){
+    fetch("http://localhost:5000/tasks/get", {
+        method: "GET"
+    })
+    .then((res)=> { return res.json();
+    })
+    .then((res) =>{
+        setTasks(res)
+        return console.log(res)
+    },
+    // (error) => {
+    //     setClasses("error")
+    // }
+    )
+}
+
+let createButtons;
+let taskList;
+let taskName;
+let assignedFamilyMember;
+let taskRequired;
+let taskMaxTime;
+let taskTime;
+
+function clickedButton (name){
+    earnedTime.push(15)
+    completedTasks.push(name)
+    console.log(earnedTime)
+    console.log(completedTasks)
+}
+
+
+if(tasks != null){
+ createButtons = tasks.map((item, i) => {
+    taskName = item.Name;
+    assignedFamilyMember = item.Family_Member;
+    taskRequired = item.Required;
+    taskMaxTime= item.Max_Time;
+    taskTime = item.Time;
+
+
+    return(
+    <button onClick={() => clickedButton(taskName) }>{taskName}</button>
+    )
+
+
+})
+
+}
+
+
 
     return(
         <div>
     
                 <body>
-                <div class="timer">
-                    <div class="timer__controls">
-                    <button data-time="20" class="timer__button">20 Secs</button>
-                    <button data-time="300" class="timer__button">Work 5</button>
-                    <button data-time="900" class="timer__button">Quick 15</button>
-                    <button data-time="1200" class="timer__button">Snack 20</button>
-                    <button data-time="3600" class="timer__button">Lunch Break</button>
+                <div className="timer">
+                    <div className="timer__controls">
+                    {/* <button onClick={()=> addTime(20)} className="timer__button">20 Secs</button>
+                    <button onClick={()=> addTime(300)} className="timer__button">Work 5</button>
+                    <button  onClick={()=> addTime(900)} className="timer__button">Quick 15</button>
+                    <button  onClick={()=> addTime(1200)} className="timer__button">Snack 20</button>
+                    <button  onClick={()=> addTime(3600)} className="timer__button">Lunch Break</button> */}
+                    {createButtons}
                     <form name="customForm" id="custom">
                         <input type="text" name="minutes" placeholder="Enter Minutes"/>
                     </form>
@@ -82,7 +94,7 @@ export default function CountDownTimer(){
                     </div>
                 </div>
 
-                <script src="scripts-FINISHED.js"></script>
+                <script src="FINISHED"></script>
                 </body>
         </div>
     )
