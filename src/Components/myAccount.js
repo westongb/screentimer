@@ -1,25 +1,28 @@
 import React, {useState, useContext} from 'react';
+import {LoginContext} from '../Components/LoginAuthentication/isAuthenticated';
 import "./components.css";
 
 
 export default function MyAccount(){
 
-    const [userFullName, setFullName] = useState("Weston")
-    const [userName, setUserName] = useState("Westongb")
-    const [password, setPassword] = useState("Abc123890")
-
+    const {user,setUser, loggedIn, setLoggedIn, token, writeToken, parent, setParent,firstName, setFirstName, lastName, setLastName, email, setEmail} = useContext(LoginContext);
     return(
         <div>
             <h1>My Account</h1>
             <br/>
             <div className="formDisplayItem">
-                <span><p>Name:</p></span>
-                 <span><p>{userFullName}</p></span>
+                <span><p>First Name:</p></span>
+                 <span><p>{firstName}</p></span>
+                 <button><p>Edit</p></button>
+            </div>
+            <div className="formDisplayItem">
+                <span><p>Last Name:</p></span>
+                 <span><p>{lastName}</p></span>
                  <button><p>Edit</p></button>
             </div>
             <div className="formDisplayItem">
                 <span><p>User Name:</p></span>
-                 <span><p>{userName}</p></span>
+                 <span><p>{user}</p></span>
                  <button><p>Edit</p></button>
             </div>
             <div className="formDisplayItem">

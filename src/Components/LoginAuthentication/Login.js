@@ -1,13 +1,13 @@
 import React, {useState, useContext} from 'react';
 import {BrowserRouter as Router, Route, Redirect, Link, Switch} from "react-router-dom";
-import {LoginContext } from "./isAuthenticated";
+import {LoginContext} from "./isAuthenticated";
 
 export default function LoginScreen(){
 
 
 const [userName, setUserName] = useState('');
 const [password, setPassword] = useState('');
-const {user, setUser, loggedIn, setLoggedIn, token, writeToken} = useContext(LoginContext);
+const {user,setUser, loggedIn, setLoggedIn, token, writeToken, parent, setParent,firstName, setFirstName, lastName, setLastName, email, setEmail} = useContext(LoginContext);
 
 const veryifyLogin= (res, props) => {
     fetch(`http://localhost:5000/login/${userName}`, {
@@ -30,9 +30,14 @@ const veryifyLogin= (res, props) => {
                 if(data.password === 'Incorrect password') {
                     window.alert("Incorrect User Name or Password")
                 } else{
-               setUser(userName)
-            //    writeToken(data.TokenAuth)
+                    console.log(data)
+               setUser(data.User.UserName)
+               writeToken(data.TokenAuth)
                setLoggedIn(true)
+               setParent(true)
+               setFirstName(data.User.FirstName)
+               setLastName(data.User.lastName)
+               setEmail(data.User.EmailAddress)
             //    routeChange()
             }
         }
@@ -44,7 +49,7 @@ const veryifyLogin= (res, props) => {
 
 const submitHandler = (event) =>{
     event.preventDefault()
-    // veryifyLogin(event)
+    veryifyLogin(event)
 }
 
 // let history = useHistory();

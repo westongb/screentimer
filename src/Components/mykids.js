@@ -1,11 +1,12 @@
 import React, {useState, useContext} from 'react';
+import KidsPopup from './myKidsPopup';
 import "./components.css";
-
+import {LoginContext} from '../Components/LoginAuthentication/isAuthenticated';
 export default function MyFamily(){
 
 
 
-
+    const {user, setUser, loggedIn, setLoggedIn, token, writeToken, parent, setParent} = useContext(LoginContext);
 
 
 
@@ -28,6 +29,7 @@ export default function MyFamily(){
                     <td>Test Time</td>
                 </tr>    
             </table>
+            <KidsPopup/>
         </div>
     )
 }

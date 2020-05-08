@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-
+import { format, formatDistance, formatRelative, subDays } from 'date-fns'
+import DateFnsUtils from '@date-io/date-fns';
+import Grid from '@material-ui/core/Grid';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
 
 
 export default function CreateUser(){
@@ -12,8 +19,28 @@ const [password, setPassword] = useState('');
 const [emailAddress, setEmailAddress] = useState('');
 const [userName, setUserName] = useState('');
 const [confirmPassword, setConfirmPassword] = useState('');
+const [isParent, setIsParent] = useState('false');
+const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18'));
 
 
+
+let nowDate = Date.now();
+let adultBirthDate =  nowDate - 5.676e+11;
+
+const [age, setAge] = useState((adultBirthDate - selectedDate)/3.17098e-11)
+
+// var date = new Date(age); // Date 2011-05-09T06:08:45.178Z
+// var year = date.getFullYear();
+// var month = ("0" + (date.getMonth() + 1)).slice(-2);
+// var day = ("0" + date.getDate()).slice(-2);
+    
+// console.log(`${year}-${month}-${day}`); // 2011-05-09
+
+console.log(selectedDate)
+
+const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
 
 function postUser(res){
     fetch("http://localhost:5000/UserInfo/new", {
@@ -26,7 +53,8 @@ function postUser(res){
             LastName: lastName,
             EmailAddress: emailAddress,
             UserName: userName,
-            Password: confirmPassword
+            Password: confirmPassword,
+            Parent: isParent
         })
         
     }).then(
@@ -36,6 +64,7 @@ function postUser(res){
 
 function submitHandler(event) {
     event.preventDefault();
+    setIsParent(true);
     postUser(event);
 }
 
@@ -62,6 +91,23 @@ return (
             <label>Confirm Password<abbr title="This field is mandatory" aria-label="required">*</abbr> </label>
         <input type='password' value={confirmPassword} onChange={(e)=> setConfirmPassword(e.target.value)} required></input>
         <br></br>
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <Grid container justify="space-around">
+        <KeyboardDatePicker
+          disableToolbar
+          variant="inline"
+          format="MM/dd/yyyy"
+          margin="normal"
+          id="date-picker-inline"
+          label="Birth Date"
+          value={selectedDate}
+          onChange={handleDateChange}
+          KeyboardButtonProps={{
+            'aria-label': 'change date',
+          }}
+        />
+         </Grid>
+        </MuiPickersUtilsProvider>
         <button>Submit</button>
     </form>
     </div>
